@@ -5,4 +5,5 @@ backend/backups/
 backend/.env
 dist/
 *.log
+*.out.mjs
 .DS_Store
