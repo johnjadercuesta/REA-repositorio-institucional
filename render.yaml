@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: rea-institucional
+    runtime: node
+    plan: free
+    buildCommand: npm --prefix frontend ci && npm --prefix frontend run build && npm --prefix backend ci
+    startCommand: if [ ! -f backend/data/rea.db ]; then npm --prefix backend run seed; fi && npm --prefix backend start
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: 24.11.0
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES
+        value: 12h
+      - key: DB_PATH
+        value: ./data/rea.db
+      - key: UPLOAD_DIR
+        value: ./uploads
+      - key: BACKUP_DIR
+        value: ./backups
+      - key: MAX_FILE_SIZE_MB
+        value: "200"
+      - key: LOG_DOWNLOADS
+        value: "true"
